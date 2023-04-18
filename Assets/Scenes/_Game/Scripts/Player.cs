@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,17 +13,25 @@ public class Player : MonoBehaviour
     private bool isGrounded = true;
     private bool isJumping = false;
     private bool isAttack = false;
+    private bool isDeath = false;
     private float horizontal;
     private string currentAnimName;
+    private int coin = 0;
+    private Vector3 savePoint;
     // Start is called before the first frame update
     void Start()
     {
-        
+        SavePoint();
+        OnInit();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(isDeath)
+        {
+            return;
+        }
         //Debug.Log(CheckGrounded());
         isGrounded = CheckGrounded();
         
@@ -101,6 +110,15 @@ public class Player : MonoBehaviour
         // }
     }
 
+    public void OnInit()
+    {
+        isDeath = false;
+        isAttack = false;
+
+        transform.position = savePoint;
+
+        ChangeAnim("idle");
+    }
     private bool CheckGrounded()
     {
         Debug.DrawLine(transform.position, transform.position + Vector3.down * 1.1f, Color.red);
@@ -153,6 +171,27 @@ public class Player : MonoBehaviour
             anim.ResetTrigger(animName);
             currentAnimName = animName;
             anim.SetTrigger(currentAnimName);
+        }
+    }
+
+    internal void SavePoint()
+    {
+        savePoint = transform.position;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Coin")
+        {
+            coin++;
+            Destroy(collision.gameObject);
+        }
+        if(collision.tag == "DeathZone")
+        {
+            isDeath = true;
+            ChangeAnim("die");
+
+            Invoke(nameof(OnInit), 1f);
         }
     }
 }
