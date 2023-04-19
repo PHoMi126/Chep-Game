@@ -7,6 +7,7 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] private Transform aPoint, bPoint;
     [SerializeField] private float speed;
     Vector3 target;
+    
     // Start is called before the first frame update
     void Start()
     {

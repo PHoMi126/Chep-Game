@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Character
 {
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private Animator anim;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float speed = 5;
     [SerializeField] private float jumpForce = 350;
@@ -15,14 +14,13 @@ public class Player : MonoBehaviour
     private bool isAttack = false;
     private bool isDeath = false;
     private float horizontal;
-    private string currentAnimName;
     private int coin = 0;
     private Vector3 savePoint;
+
     // Start is called before the first frame update
     void Start()
     {
         SavePoint();
-        OnInit();
     }
 
     // Update is called once per frame
@@ -110,8 +108,9 @@ public class Player : MonoBehaviour
         // }
     }
 
-    public void OnInit()
+    public override void OnInit()
     {
+        base.OnInit();
         isDeath = false;
         isAttack = false;
 
@@ -119,20 +118,22 @@ public class Player : MonoBehaviour
 
         ChangeAnim("idle");
     }
+
+    public override void OnDespawn()
+    {
+        base.OnDespawn();
+    }
+
+    protected override void OnDeath()
+    {
+        base.OnDeath();
+    }
+
     private bool CheckGrounded()
     {
         Debug.DrawLine(transform.position, transform.position + Vector3.down * 1.1f, Color.red);
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.1f, groundLayer);
-
-        // if(hit != null)
-        // {
-        //     return true;
-        // }
-        // else
-        // {
-        //     return false;
-        // }
 
         return hit.collider != null;
     }
@@ -162,16 +163,6 @@ public class Player : MonoBehaviour
         isJumping = true;
         ChangeAnim("jump");
         rb.AddForce(jumpForce * Vector2.up);
-    }
-
-    private void ChangeAnim(string animName)
-    {
-        if(currentAnimName != animName)
-        {
-            anim.ResetTrigger(animName);
-            currentAnimName = animName;
-            anim.SetTrigger(currentAnimName);
-        }
     }
 
     internal void SavePoint()
