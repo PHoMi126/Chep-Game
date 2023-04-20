@@ -8,6 +8,7 @@ public class Enemy : Character
     [SerializeField] private float attackRange;
     [SerializeField] private float moveSpeed;
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private GameObject attackArea;
     private IState currentState;
     private bool isRight = true;
     private Character target;
@@ -25,15 +26,19 @@ public class Enemy : Character
     {
         base.OnInit();
         ChangeState(new IdleState());
+        DeActiveAttack();
+
     }
 
     public override void OnDespawn()
     {
         base.OnDespawn();
+        Destroy(gameObject);
     }
 
     protected override void OnDeath()
     {
+        ChangeState(null);
         base.OnDeath();
     }
 
@@ -84,12 +89,21 @@ public class Enemy : Character
 
     public void Attack()
     {
-        
+        ChangeAnim("attack");
+        ActiveAttack();
+        Invoke(nameof(DeActiveAttack), 0.5f);
     }
     
     public bool IsTargetInRange()
     {
-        return Vector2.Distance(target.transform.position, transform.position) <= attackRange;
+        if(target != null && Vector2.Distance(target.transform.position, transform.position) <= attackRange)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision) 
@@ -100,10 +114,20 @@ public class Enemy : Character
         }
     }
 
-    private void ChangeDirection(bool isRight)
+    public void ChangeDirection(bool isRight)
     {
         this.isRight = isRight;
 
         transform.rotation = isRight ? Quaternion.Euler(Vector3.zero) : Quaternion.Euler(Vector3.up * 180);
+    }
+
+    private void ActiveAttack()
+    {
+        attackArea.SetActive(true);
+    }
+
+    private void DeActiveAttack() 
+    {
+        attackArea.SetActive(false);
     }
 }

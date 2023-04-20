@@ -17,14 +17,31 @@ public class PatrolState : IState
     {
         timer += Time.deltaTime;
 
-        if(timer < randomTime)
+        if(enemy.Target != null)
         {
-            enemy.Moving();
+            
+            enemy.ChangeDirection(enemy.Target.transform.position.x > enemy.transform.position.x);
+
+            if(enemy.IsTargetInRange())
+            {
+                enemy.ChangeState(new AttackState());
+            }
+            else
+            {
+                enemy.Moving();
+            }
         }
         else
         {
-            enemy.ChangeState(new IdleState());
-        }
+            if(timer < randomTime)
+            {
+                enemy.Moving();
+            }
+            else
+            {
+                enemy.ChangeState(new IdleState());
+            }
+        }     
     }
 
     public void OnExit(Enemy enemy)
