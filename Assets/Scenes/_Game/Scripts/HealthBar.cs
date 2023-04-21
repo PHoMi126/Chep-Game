@@ -14,9 +14,11 @@ public class HealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         //?????????
         if(!imageFill)
         {
+            Debug.Log(gameObject.name);
             return;
         }
         

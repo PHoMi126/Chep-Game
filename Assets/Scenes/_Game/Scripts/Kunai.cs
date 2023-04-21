@@ -28,7 +28,7 @@ public class Kunai : MonoBehaviour
     {
         if(collision.tag == "Enemy")
         {
-            collision.GetComponent<Character>().OnHit(30f);
+            collision.GetComponent<Character>().OnHit(10f);
             Instantiate(hitVFX, transform.position, transform.rotation);
             OnDespawn();
         }

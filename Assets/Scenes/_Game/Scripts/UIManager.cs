@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] Text coinText;
     public static UIManager instance;
 
     // public static UIManager Instance
@@ -23,8 +24,6 @@ public class UIManager : MonoBehaviour
     private void Awake() {
         instance = this;
     }
-    
-    [SerializeField] Text coinText;
 
     public void SetCoin(int coin)
     {
