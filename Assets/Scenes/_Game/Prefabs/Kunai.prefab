@@ -134,7 +134,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 0.5
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -180,3 +180,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitVFX: {fileID: 1706450129988395209, guid: cce73c6bcc5ccfc47b2f4855e6e1bbce, type: 3}
   rb: {fileID: 2406901530592454112}
+  launchForce: 20

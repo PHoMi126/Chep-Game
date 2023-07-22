@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackState : IState
@@ -7,7 +5,7 @@ public class AttackState : IState
     float timer;
     public void OnEnter(Enemy enemy)
     {
-        if(enemy.Target != null)
+        if (enemy.Target != null)
         {
             //doi huong enemy toi hung cua player
             enemy.ChangeDirection(enemy.Target.transform.position.x > enemy.transform.position.x);
@@ -22,8 +20,8 @@ public class AttackState : IState
     public void OnExecute(Enemy enemy)
     {
         timer += Time.deltaTime;
-        
-        if(timer >= 1.5f)
+
+        if (timer >= 1.5f)
         {
             enemy.ChangeState(new PatrolState());
         }
@@ -31,7 +29,7 @@ public class AttackState : IState
 
     public void OnExit(Enemy enemy)
     {
-        
+
     }
 
 }

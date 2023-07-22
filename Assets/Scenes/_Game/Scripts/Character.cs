@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Character : MonoBehaviour
@@ -9,7 +7,7 @@ public class Character : MonoBehaviour
     [SerializeField] protected CombatText CombatTextPrefab;
     private float hp;
     private string currentAnimName;
-    public bool isDead => hp <= 0;
+    public bool IsDead => hp <= 0;
 
     private void Start()
     {
@@ -24,7 +22,7 @@ public class Character : MonoBehaviour
 
     public virtual void OnDespawn()
     {
-        
+
     }
 
     protected virtual void OnDeath()
@@ -35,7 +33,7 @@ public class Character : MonoBehaviour
 
     protected void ChangeAnim(string animName)
     {
-        if(currentAnimName != animName)
+        if (currentAnimName != animName)
         {
             anim.ResetTrigger(animName);
             currentAnimName = animName;
@@ -45,11 +43,11 @@ public class Character : MonoBehaviour
 
     public void OnHit(float damage)
     {
-        if(!isDead) //hp >= damage
+        if (!IsDead) //hp >= damage
         {
             hp -= damage;
 
-            if(isDead) // hp <= damage
+            if (IsDead) // hp <= damage
             {
                 hp = 0;
                 OnDeath();

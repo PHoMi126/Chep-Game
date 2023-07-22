@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,12 +14,13 @@ public class UIManager : MonoBehaviour
     //         {
     //             instance = FindObjectOfType<UIManager>();
     //         }
-            
+
     //         return instance;
     //     }
     // }
-    
-    private void Awake() {
+
+    private void Awake()
+    {
         instance = this;
     }
 

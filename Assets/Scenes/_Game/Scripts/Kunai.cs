@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Kunai : MonoBehaviour
 {
     public GameObject hitVFX;
     public Rigidbody2D rb;
+    public float launchForce;
 
     // Start is called before the first frame update
     void Start()
@@ -15,7 +14,7 @@ public class Kunai : MonoBehaviour
 
     public void OnInit()
     {
-        rb.velocity = transform.right * 5f;
+        rb.GetComponent<Rigidbody2D>().velocity = transform.right * launchForce;
         Invoke(nameof(OnDespawn), 4f);
     }
 
@@ -26,7 +25,7 @@ public class Kunai : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Enemy")
+        if (collision.CompareTag("Enemy"))
         {
             collision.GetComponent<Character>().OnHit(10f);
             Instantiate(hitVFX, transform.position, transform.rotation);

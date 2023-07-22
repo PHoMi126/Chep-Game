@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PatrolState : IState
@@ -17,12 +15,12 @@ public class PatrolState : IState
     {
         timer += Time.deltaTime;
 
-        if(enemy.Target != null)
+        if (enemy.Target != null)
         {
-            
+
             enemy.ChangeDirection(enemy.Target.transform.position.x > enemy.transform.position.x);
 
-            if(enemy.IsTargetInRange())
+            if (enemy.IsTargetInRange())
             {
                 enemy.ChangeState(new AttackState());
             }
@@ -33,7 +31,7 @@ public class PatrolState : IState
         }
         else
         {
-            if(timer < randomTime)
+            if (timer < randomTime)
             {
                 enemy.Moving();
             }
@@ -41,12 +39,12 @@ public class PatrolState : IState
             {
                 enemy.ChangeState(new IdleState());
             }
-        }     
+        }
     }
 
     public void OnExit(Enemy enemy)
     {
-        
+
     }
 
 }

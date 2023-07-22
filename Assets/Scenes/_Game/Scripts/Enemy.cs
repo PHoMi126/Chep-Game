@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : Character
@@ -14,9 +11,9 @@ public class Enemy : Character
     private Character target;
     public Character Target => target;
 
-    private void Update() 
+    private void Update()
     {
-        if(currentState != null && !isDead)
+        if (currentState != null && !IsDead)
         {
             currentState.OnExecute(this);
         }
@@ -45,24 +42,26 @@ public class Enemy : Character
 
     public void ChangeState(IState newState)
     {
-        if(currentState != null)
+        /* if (currentState != null)
         {
             currentState.OnExit(this);
-        }
+        } */
+        currentState?.OnExit(this); //null check
 
         currentState = newState;
 
-        if(currentState != null)
+        /* if (currentState != null)
         {
             currentState.OnEnter(this);
-        }
+        } */
+        currentState?.OnEnter(this); //null check
     }
 
     internal void SetTarget(Character character)
     {
         this.target = character;
 
-        if(IsTargetInRange())
+        if (IsTargetInRange())
         {
             ChangeState(new AttackState());
         }
@@ -94,10 +93,10 @@ public class Enemy : Character
         ActiveAttack();
         Invoke(nameof(DeActiveAttack), 0.5f);
     }
-    
+
     public bool IsTargetInRange()
     {
-        if(target != null && Vector2.Distance(target.transform.position, transform.position) <= attackRange)
+        if (target != null && Vector2.Distance(target.transform.position, transform.position) <= attackRange)
         {
             return true;
         }
@@ -107,9 +106,9 @@ public class Enemy : Character
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) 
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "EnemyWall")
+        if (collision.CompareTag("EnemyWall"))
         {
             ChangeDirection(!isRight);
         }
@@ -127,7 +126,7 @@ public class Enemy : Character
         attackArea.SetActive(true);
     }
 
-    private void DeActiveAttack() 
+    private void DeActiveAttack()
     {
         attackArea.SetActive(false);
     }

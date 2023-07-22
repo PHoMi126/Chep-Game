@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySight : MonoBehaviour
@@ -8,7 +6,7 @@ public class EnemySight : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
             enemy.SetTarget(collision.GetComponent<Character>());
         }
@@ -16,7 +14,7 @@ public class EnemySight : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
             enemy.SetTarget(null);
         }

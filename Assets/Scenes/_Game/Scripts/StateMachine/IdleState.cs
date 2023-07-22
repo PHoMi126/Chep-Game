@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class IdleState : IState
@@ -17,8 +15,8 @@ public class IdleState : IState
     public void OnExecute(Enemy enemy)
     {
         timer += Time.deltaTime;
-        
-        if(timer > randomTime)
+
+        if (timer > randomTime)
         {
             enemy.ChangeState(new PatrolState());
         }
@@ -26,7 +24,7 @@ public class IdleState : IState
 
     public void OnExit(Enemy enemy)
     {
-        
+
     }
 
 }

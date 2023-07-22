@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,14 +12,13 @@ public class HealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         //?????????
-        if(!imageFill)
+        if (!imageFill)
         {
-            Debug.Log(gameObject.name);
+            //Debug.Log(gameObject.name);
             return;
         }
-        
+
         imageFill.fillAmount = Mathf.Lerp(imageFill.fillAmount, hp / maxHp, Time.deltaTime * 5f);
         transform.position = target.position + offset;
     }

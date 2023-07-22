@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Character
@@ -20,7 +17,7 @@ public class Player : Character
     private int coin = 0;
     private Vector3 savePoint;
 
-    private void Awake() 
+    private void Awake()
     {
         coin = PlayerPrefs.GetInt("coin", 0);
     }
@@ -28,26 +25,26 @@ public class Player : Character
     // Update is called once per frame
     void Update()
     {
-        if(isDead)
+        if (IsDead)
         {
             return;
         }
         //Debug.Log(CheckGrounded());
         isGrounded = CheckGrounded();
-        
+
         //-1 -> 0 -> 1
         //horizontal = Input.GetAxisRaw("Horizontal");
         //vertical = Input.GetAxisRaw("Vertical");
 
-        if(isAttack)
+        if (isAttack)
         {
             rb.velocity = Vector2.zero;
             return;
         }
 
-        if(isGrounded)
+        if (isGrounded)
         {
-            if(isJumping)
+            if (isJumping)
             {
                 return;
             }
@@ -57,9 +54,9 @@ public class Player : Character
             {
                 Jump();
             }
-            
+
             //Change anim run
-            if(Mathf.Abs(horizontal) > 0.1f)
+            if (Mathf.Abs(horizontal) > 0.1f)
             {
                 ChangeAnim("run");
             }
@@ -75,39 +72,33 @@ public class Player : Character
             {
                 Throw();
             }
-            
+
         }
 
         //Check falling
-        if(!isGrounded && rb.velocity.y < 0)
+        if (!isGrounded && rb.velocity.y < 0)
         {
             ChangeAnim("fall");
             isJumping = false;
         }
 
         //Moving
-        if(Mathf.Abs(horizontal) > 0.1f)
+        if (Mathf.Abs(horizontal) > 0.1f)
         {
             rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
             //transform.localScale = new Vector3(horizontal, 1, 1);
 
             //horizontal > 0 -> tra ve 0, new horizontal <= 0 -> tra ve 180
             transform.rotation = Quaternion.Euler(new Vector3(0, horizontal > 0 ? 0 : 180, 0));
-            
+
         }
         //Idle
-        else if(isGrounded)
+        else if (isGrounded)
         {
             //Debug.Log("zero");
             ChangeAnim("idle");
             rb.velocity = Vector2.zero;
         }
-        // else
-        // {
-        //     //Debug.Log("zero");
-        //     ChangeAnim("idle");
-        //     rb.velocity = Vector2.zero;
-        // }
     }
 
     public override void OnInit()
@@ -172,9 +163,12 @@ public class Player : Character
 
     public void Jump()
     {
-        isJumping = true;
-        ChangeAnim("jump");
-        rb.AddForce(jumpForce * Vector2.up);
+        if (isGrounded)
+        {
+            isJumping = true;
+            ChangeAnim("jump");
+            rb.AddForce(jumpForce * Vector2.up);
+        }
     }
 
     internal void SavePoint()
@@ -187,7 +181,7 @@ public class Player : Character
         attackArea.SetActive(true);
     }
 
-    private void DeActiveAttack() 
+    private void DeActiveAttack()
     {
         attackArea.SetActive(false);
     }
@@ -199,14 +193,14 @@ public class Player : Character
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Coin")
+        if (collision.CompareTag("Coin"))
         {
             coin++;
             PlayerPrefs.SetInt("coin", coin);
             UIManager.instance.SetCoin(coin);
             Destroy(collision.gameObject);
         }
-        if(collision.tag == "DeathZone")
+        if (collision.CompareTag("DeathZone"))
         {
             ChangeAnim("die");
             Invoke(nameof(OnInit), 1f);
